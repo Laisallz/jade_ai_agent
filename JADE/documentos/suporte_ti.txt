@@ -1,0 +1,12 @@
+SUPORTE DE TECNOLOGIA DA INFORMAÇÃO
+
+O suporte de TI da JADE atende problemas relacionados
+a computadores, sistemas, acesso à rede e contas corporativas.
+
+Para solicitar atendimento, o colaborador deve abrir
+um chamado informando seu nome, setor e descrição do problema.
+
+Chamados críticos possuem prioridade de atendimento.
+
+O suporte de TI é responsável por auxiliar os colaboradores
+em problemas técnicos relacionados aos recursos corporativos.
