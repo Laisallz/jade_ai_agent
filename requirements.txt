@@ -1,0 +1,7 @@
+gradio
+langchain
+langchain-community
+langchain-groq
+chromadb
+sentence-transformers
+cross-encoder
