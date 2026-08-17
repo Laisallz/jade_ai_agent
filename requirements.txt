@@ -1,6 +1,7 @@
 gradio
 langchain
-langchain-community
 langchain-groq
+langchain-community
+langchain-huggingface
 chromadb
 sentence-transformers
