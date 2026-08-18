@@ -18,24 +18,21 @@ else:
 try:
     import gradio as gr
     from langchain_groq import ChatGroq
-    from langchain_core.prompts import ChatPromptTemplate
-    from langchain_core.runnables import RunnablePassthrough
-    from langchain_core.output_parsers import StrOutputParser
     print("✅ Todas as bibliotecas foram importadas com sucesso.", flush=True)
 except Exception as e:
     print(f"❌ ERRO GRAVE NA IMPORTAÇÃO: {e}", flush=True)
     sys.exit(1)
 
-# 3. Inicialização do LLM
+# 3. Inicialização do LLM (Modelo Garantido na Groq)
 llm = None
 if groq_api_key:
     try:
         llm = ChatGroq(
             groq_api_key=groq_api_key,
-            model="llama-3.1-8b-instant",
+            model_name="llama3-8b-8192",
             temperature=0.2
         )
-        print("✅ Modelo Llama-3.1-8b conectado com sucesso.", flush=True)
+        print("✅ Modelo Llama-3-8B conectado com sucesso.", flush=True)
     except Exception as e:
         print(f"❌ ERRO ao conectar com a Groq: {e}", flush=True)
 
@@ -44,6 +41,9 @@ def responder_jade(mensagem, historico):
     if not mensagem or not mensagem.strip():
         return ""
     
+    if not llm:
+        return "Erro: GROQ_API_KEY não configurada ou modelo não inicializado."
+
     try:
         resposta = llm.invoke(mensagem)
         return resposta.content
