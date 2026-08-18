@@ -1,6 +1,6 @@
 # 🤖 JADE AI Agent — Assistente Corporativo RAG
 
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/laisalisanezanatta/jade-ai-agent)
+[https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/laisalisanezanatta/jade_ai_agent/blob/main/JADE.ipynb)
 
 O **JADE AI Agent** é um assistente corporativo baseado em **Retrieval-Augmented Generation (RAG)** de alta precisão, desenvolvido para responder a dúvidas de colaboradores com base na base de conhecimento interna da empresa, reduzindo alucinações e citando as fontes exatas das informações.
