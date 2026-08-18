@@ -42,7 +42,9 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 | **Banco Vetorial** | ChromaDB | Armazenamento e busca por similaridade de documentos |
 | **Hospedagem** | Render.com | Nuvem para deploy do serviço web 24/7 |
 
----
+--
+<img width="1024" height="432" alt="image" src="https://github.com/user-attachments/assets/8f0df7e0-da34-40c4-b6c9-a8f15026a369" />
+-
 
 ## 🚀 4. Instruções para Executar o Projeto
 
