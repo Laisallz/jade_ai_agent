@@ -32,9 +32,11 @@ if groq_api_key:
     try:
         llm = ChatGroq(
             groq_api_key=groq_api_key,
-            model_name="llama-3.1-8b-instant",
+            model="llama-3.1-8b-instant",
             temperature=0.2
         )
+        print("✅ Modelo Llama-3.1-8b conectado com sucesso.", flush=True)
+    except Exception as e:
         print(f"❌ ERRO ao conectar com a Groq: {e}", flush=True)
 
 # 4. Função de Resposta
