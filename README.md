@@ -1,6 +1,6 @@
 # 💎 JADE AI Agent
 
-**Aplicação Online:** [Acessar a JADE no Render](https://jade-ai-agent-1-scuv.onrender.com)
+**Aplicação Online:** [Acessar a JADE no Render]https://jade-ai-agent-1-scuv.onrender.com
 
 Assistente Virtual Inteligente baseada em Inteligência Artificial, construída com arquitetura RAG (Retrieval-Augmented Generation), LangChain Expression Language (LCEL) e implantada de forma leve no Render.com.
 
