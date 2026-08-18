@@ -23,16 +23,16 @@ except Exception as e:
     print(f"❌ ERRO GRAVE NA IMPORTAÇÃO: {e}", flush=True)
     sys.exit(1)
 
-# 3. Inicialização do LLM (Modelo Garantido na Groq)
+# 3. Inicialização do LLM com Llama 3.3 70B
 llm = None
 if groq_api_key:
     try:
         llm = ChatGroq(
             groq_api_key=groq_api_key,
-            model_name="llama3-8b-8192",
+            model_name="llama-3.3-70b-versatile",
             temperature=0.2
         )
-        print("✅ Modelo Llama-3-8B conectado com sucesso.", flush=True)
+        print("✅ Modelo Llama-3.3-70b conectado com sucesso.", flush=True)
     except Exception as e:
         print(f"❌ ERRO ao conectar com a Groq: {e}", flush=True)
 
