@@ -2,15 +2,15 @@ import os
 import gradio as gr
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-# 1. Configurar Chave de API e Embeddings
+# 1. Configurar Chave de API e Embeddings ultraleves (otimizados para 512MB RAM)
 groq_api_key = os.environ.get("GROQ_API_KEY")
 
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
 # Verificar pastas do banco vetorial Chroma
 if os.path.exists("./jade_chroma"):
@@ -54,7 +54,6 @@ def responder_jade(mensagem, historico):
     
     try:
         if retriever:
-            # Cadeia RAG usando LCEL (sintaxe moderna)
             rag_chain = (
                 {"context": retriever | format_docs, "question": RunnablePassthrough()}
                 | prompt_template
@@ -63,7 +62,6 @@ def responder_jade(mensagem, historico):
             )
             return rag_chain.invoke(mensagem)
         else:
-            # Resposta direta caso o banco vetorial não esteja carregado
             resposta = llm.invoke(mensagem)
             return resposta.content
     except Exception as e:
