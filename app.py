@@ -28,9 +28,10 @@ llm = None
 if groq_api_key:
     try:
         llm = ChatGroq(
-            groq_api_key=groq_api_key,
-            model_name="llama-3.3-70b-versatile",
-            temperature=0.2
+    api_key=groq_api_key,
+    model="openai/gpt-oss-120b",
+    temperature=0.2
+)
         )
         print("✅ Modelo Llama-3.3-70b conectado com sucesso.", flush=True)
     except Exception as e:
