@@ -1,42 +1,54 @@
 import os
 import gradio as gr
 from langchain_groq import ChatGroq
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-# 1. Configurar Chave de API e Embeddings ultraleves (otimizados para 512MB RAM)
+# 1. Configurar LLM da Groq (Sem consumo pesado de RAM no startup)
 groq_api_key = os.environ.get("GROQ_API_KEY")
 
-embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
-
-# Verificar pastas do banco vetorial Chroma
-if os.path.exists("./jade_chroma"):
-    chroma_path = "./jade_chroma"
-elif os.path.exists("./chroma_db"):
-    chroma_path = "./chroma_db"
-else:
-    chroma_path = None
-
-if chroma_path:
-    vectorstore = Chroma(
-        persist_directory=chroma_path,
-        embedding_function=embeddings
-    )
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-else:
-    retriever = None
-
-# Configurar LLM da Groq
 llm = ChatGroq(
     groq_api_key=groq_api_key,
     model_name="llama-3.3-70b-versatile",
     temperature=0.2
 )
 
-# Template de prompt da JADE
+# Variáveis para Lazy Loading do Banco Vetorial
+retriever_instance = None
+retriever_checked = False
+
+def get_retriever():
+    """Carrega o banco de dados somente quando o usuário fizer a 1ª pergunta"""
+    global retriever_instance, retriever_checked
+    if retriever_checked:
+        return retriever_instance
+
+    retriever_checked = True
+    chroma_path = None
+    if os.path.exists("./jade_chroma"):
+        chroma_path = "./jade_chroma"
+    elif os.path.exists("./chroma_db"):
+        chroma_path = "./chroma_db"
+
+    if chroma_path:
+        try:
+            from langchain_community.vectorstores import Chroma
+            from langchain_community.embeddings import FastEmbedEmbeddings
+            
+            embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+            vectorstore = Chroma(
+                persist_directory=chroma_path,
+                embedding_function=embeddings
+            )
+            retriever_instance = vectorstore.as_retriever(search_kwargs={"k": 3})
+            print("--- Banco Vetorial carregado sob demanda com sucesso! ---")
+        except Exception as e:
+            print(f"Erro ao carregar banco vetorial: {e}")
+            retriever_instance = None
+    return retriever_instance
+
+# 2. Prompt Template da JADE
 prompt_template = ChatPromptTemplate.from_template(
     "Você é a JADE, uma assistente virtual inteligente, prestativa e amigável. "
     "Responda à dúvida do usuário de forma clara, bem formatada e direta. "
@@ -49,10 +61,11 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 def responder_jade(mensagem, historico):
-    if not mensagem.strip():
+    if not mensagem or not mensagem.strip():
         return ""
     
     try:
+        retriever = get_retriever()
         if retriever:
             rag_chain = (
                 {"context": retriever | format_docs, "question": RunnablePassthrough()}
@@ -67,7 +80,7 @@ def responder_jade(mensagem, historico):
     except Exception as e:
         return f"Ops! Tive um problema ao processar sua pergunta: {str(e)}"
 
-# 2. Design da Interface Web (Gradio)
+# 3. Design da Interface Web (Gradio)
 theme = gr.themes.Soft(
     primary_hue="emerald",
     secondary_hue="teal",
@@ -107,7 +120,7 @@ with gr.Blocks(theme=theme, css=custom_css, title="JADE AI Agent") as demo:
         clear_btn="🗑️ Limpar conversa"
     )
 
-# 3. Execução configurada para a porta do Render
+# 4. Inicializar Servidor Instantaneamente
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     demo.launch(server_name="0.0.0.0", server_port=port)
