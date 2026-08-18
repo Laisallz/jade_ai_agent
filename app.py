@@ -3,48 +3,50 @@ import gradio as gr
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 
 # 1. Configurar Chave de API e Embeddings
 groq_api_key = os.environ.get("GROQ_API_KEY")
 
-# Modelo de embeddings para busca no banco vetorial
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# Carregar o banco vetorial Chroma (se existir na pasta chroma_db)
-if os.path.exists("./chroma_db"):
+# Verificar pastas do banco vetorial Chroma
+if os.path.exists("./jade_chroma"):
+    chroma_path = "./jade_chroma"
+elif os.path.exists("./chroma_db"):
+    chroma_path = "./chroma_db"
+else:
+    chroma_path = None
+
+if chroma_path:
     vectorstore = Chroma(
-        persist_directory="./chroma_db",
+        persist_directory=chroma_path,
         embedding_function=embeddings
     )
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 else:
     retriever = None
 
-# Configurar o LLM da Groq
+# Configurar LLM da Groq
 llm = ChatGroq(
     groq_api_key=groq_api_key,
     model_name="llama-3.3-70b-versatile",
     temperature=0.2
 )
 
-# Template de prompt com a personalidade da JADE
-system_prompt = (
+# Template de prompt da JADE
+prompt_template = ChatPromptTemplate.from_template(
     "Você é a JADE, uma assistente virtual inteligente, prestativa e amigável. "
     "Responda à dúvida do usuário de forma clara, bem formatada e direta. "
     "Se houver contexto fornecido abaixo, use-o para fundamentar sua resposta.\n\n"
-    "Contexto:\n{context}"
+    "Contexto:\n{context}\n\n"
+    "Pergunta: {question}"
 )
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", system_prompt),
-    ("human", "{input}"),
-])
-
-# Criar a cadeia RAG
-question_answer_chain = create_stuff_documents_chain(llm, prompt)
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 
 def responder_jade(mensagem, historico):
     if not mensagem.strip():
@@ -52,11 +54,16 @@ def responder_jade(mensagem, historico):
     
     try:
         if retriever:
-            rag_chain = create_retrieval_chain(retriever, question_answer_chain)
-            resposta = rag_chain.invoke({"input": mensagem})
-            return resposta["answer"]
+            # Cadeia RAG usando LCEL (sintaxe moderna)
+            rag_chain = (
+                {"context": retriever | format_docs, "question": RunnablePassthrough()}
+                | prompt_template
+                | llm
+                | StrOutputParser()
+            )
+            return rag_chain.invoke(mensagem)
         else:
-            # Resposta direta caso o banco vetorial não tenha sido carregado
+            # Resposta direta caso o banco vetorial não esteja carregado
             resposta = llm.invoke(mensagem)
             return resposta.content
     except Exception as e:
@@ -102,10 +109,7 @@ with gr.Blocks(theme=theme, css=custom_css, title="JADE AI Agent") as demo:
         clear_btn="🗑️ Limpar conversa"
     )
 
-# 3. Execução configurada para a porta do Render.com
+# 3. Execução configurada para a porta do Render
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     demo.launch(server_name="0.0.0.0", server_port=port)
-  
-
-    
