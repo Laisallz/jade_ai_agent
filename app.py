@@ -36,7 +36,7 @@ def responder_jade(mensagem, historico):
 
         # 2ª Tentativa (Fallback): Usar o modelo Llama 3 8B
         try:
-            llm = obter_llm("llama3-8b-8192", api_key)
+            llm = obter_llm("llama-3.3-70b-versatile", api_key)
             resposta = llm.invoke(mensagem)
             return resposta.content
         except Exception as erro_8b:
