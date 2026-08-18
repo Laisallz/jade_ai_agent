@@ -44,4 +44,4 @@ Você pode testar a interface do assistente rodando 24/7 através do link:
 
 ## ✒️ Autora
 
-Desenvolvido por **Laisa**.
+Desenvolvido por **Lisane**.
