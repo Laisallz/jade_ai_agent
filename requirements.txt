@@ -1,7 +1,2 @@
 gradio
-langchain>=0.2.0
-langchain-community
-langchain-core
 langchain-groq
-chromadb
-fastembed
