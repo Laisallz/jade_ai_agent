@@ -1,58 +1,67 @@
 import os
 import sys
 
+# Força o Python a exibir os logs imediatamente no console do Render
 sys.stdout.reconfigure(line_buffering=True)
 
-print("=== [JADE] INICIANDO APLICAÇÃO ===", flush=True)
+print("=== [JADE AI AGENT] INICIANDO APLICAÇÃO ===", flush=True)
 
-# 1. Leitura das Variáveis
-groq_api_key = os.environ.get("GROQ_API_KEY", "").strip()
+import gradio as gr
+from langchain_groq import ChatGroq
 
-# 2. Imports
-try:
-    import gradio as gr
-    from langchain_groq import ChatGroq
-    print("✅ Bibliotecas carregadas.", flush=True)
-except Exception as e:
-    print(f"❌ Erro de Importação: {e}", flush=True)
-    sys.exit(1)
+def obter_llm(nome_modelo, api_key):
+    """Cria a instância do LLM com o modelo solicitado."""
+    return ChatGroq(
+        groq_api_key=api_key,
+        model=nome_modelo,
+        temperature=0.2
+    )
 
-# 3. Inicialização do LLM (Usando o parâmetro 'model' atualizado)
-llm = None
-if groq_api_key:
-    try:
-        llm = ChatGroq(
-            groq_api_key=groq_api_key,
-            model="llama-3.3-70b-versatile",  # Usa 'model' em vez de 'model_name'
-            temperature=0.2
-        )
-        print("✅ Modelo configurado.", flush=True)
-    except Exception as e:
-        print(f"❌ Erro na configuração do LLM: {e}", flush=True)
-
-# 4. Função de Resposta com Fallback de Segurança
 def responder_jade(mensagem, historico):
     if not mensagem or not mensagem.strip():
         return ""
-    
-    if not llm:
-        return "Erro: GROQ_API_KEY não encontrada nas variáveis do Render."
 
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    
+    if not api_key:
+        return "❌ Erro: A variável GROQ_API_KEY não foi encontrada no ambiente do Render."
+
+    # 1ª Tentativa: Usar o modelo Llama 3.3 70B
     try:
+        llm = obter_llm("llama-3.3-70b-versatile", api_key)
         resposta = llm.invoke(mensagem)
         return resposta.content
-    except Exception as e:
-        # Exibe o erro legível
-        return f"Ops! Erro de conexão com a API Groq: {str(e)}"
+    except Exception as erro_70b:
+        print(f"⚠️ Modelo 70B indisponível ou inacessível ({erro_70b}). Ativando fallback 8B...", flush=True)
 
-# 5. Interface
-theme = gr.themes.Soft(primary_hue="emerald", secondary_hue="teal", neutral_hue="slate")
+        # 2ª Tentativa (Fallback): Usar o modelo Llama 3 8B
+        try:
+            llm = obter_llm("llama3-8b-8192", api_key)
+            resposta = llm.invoke(mensagem)
+            return resposta.content
+        except Exception as erro_8b:
+            return f"❌ Erro de conexão com a API Groq: {str(erro_8b)}"
+
+# Configuração Visual da Interface
+theme = gr.themes.Soft(
+    primary_hue="emerald",
+    secondary_hue="teal",
+    neutral_hue="slate"
+)
 
 with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
-    gr.Markdown("# 💎 JADE AI Agent\n### Assistente Virtual Inteligente")
+    gr.Markdown(
+        """
+        # 💎 JADE AI Agent
+        ### Assistente Virtual Inteligente
+        """
+    )
     gr.ChatInterface(fn=responder_jade)
 
-# 6. Servidor
+# Execução do Servidor
 if __name__ == "__main__":
+    # O Render define a porta pela variável PORT automaticamente
     port = int(os.environ.get("PORT", 10000))
+    print(f"🚀 Subindo servidor web na porta {port}...", flush=True)
+    
     demo.launch(server_name="0.0.0.0", server_port=port)
