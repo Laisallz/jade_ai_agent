@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="jade/jade.lgo.png.jpeg" width="140" alt="JADE AI Agent Logo" />
+  <img src="jade/jade.lgo.png.jpeg" alt="JADE AI Agent Header" width="100%" />
 </p>
 
 <h1 align="center">💎 JADE AI Agent</h1>
@@ -8,7 +8,13 @@
   <strong>Assistente Virtual Inteligente para Código, Automação e Produtividade</strong>
 </p>
 
-> Assistente Virtual Inteligente baseada em Inteligência Artificial.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Status-Conclu%C3%ADdo-brightgreen?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Licen%C3%A7a-MIT-blue?style=for-the-badge" alt="Licença" />
+</p>
+
+---
 
 ---
 
