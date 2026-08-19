@@ -1,4 +1,4 @@
-# 💎 JADE AI Agent
+# # <img src="jade/logo.png" width="40" align="center" /> JADE AI Agent JADE AI Agent
 
 **Aplicação Online:** [Acessar a JADE no Render]https://jade-ai-agent-1-scuv.onrender.com
 
