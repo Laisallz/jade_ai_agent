@@ -1,4 +1,12 @@
-# <img src="jade/logo.png" width="50" align="center" alt="Logo" /> JADE AI Agent
+<p align="center">
+  <img src="jade/jade.lgo.png.jpeg" width="140" alt="JADE AI Agent Logo" />
+</p>
+
+<h1 align="center">💎 JADE AI Agent</h1>
+
+<p align="center">
+  <strong>Assistente Virtual Inteligente para Código, Automação e Produtividade</strong>
+</p>
 
 > Assistente Virtual Inteligente baseada em Inteligência Artificial.
 
