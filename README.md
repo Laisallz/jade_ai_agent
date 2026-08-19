@@ -51,7 +51,25 @@ Demonstração de funcionalidades
 </p>
 
 
+### 💡 Exemplos de Perguntas para a JADE
 
+#### 💻 Programação e Desenvolvimento
+- *"Como criar uma função em Python para conectar a uma API REST com autenticação?"*
+- *"Explique a diferença entre `let`, `const` e `var` em JavaScript com exemplos práticos."*
+- *"Como tratar erros e exceções em uma aplicação Flask de forma limpa?"*
+
+#### 📝 Redação e Criação de Conteúdo
+- *"Escreva um e-mail profissional solicitando feedback sobre a entrega de um projeto."*
+- *"Crie um resumo explicativo sobre arquitetura de microserviços para iniciantes."*
+- *"Ajude-me a revisar e melhorar o tom deste texto."*
+
+#### 🧠 Lógica e Resolução de Problemas
+- *"Como estruturar um banco de dados relacional para um sistema de e-commerce?"*
+- *"Quais são as melhores práticas para otimizar consultas SQL lentas?"*
+
+#### ⚡ Produtividade e Planejamento
+- *"Monte um checklist com os passos essenciais para fazer o deploy de uma aplicação no Render."*
+- *"Quais ideias de novas funcionalidades posso implementar em um assistente virtual?"*
 
 ## 🚀 4. Instruções para Executar o Projeto
 
