@@ -45,17 +45,12 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 --
 <img width="1024" height="432" alt="image" src="https://github.com/user-attachments/assets/8f0df7e0-da34-40c4-b6c9-a8f15026a369" />
 -
-### 📸 Demonstração de Funcionalidades
-
-
 <p align="center">
-  <img src="jade/foto1.png" width="48%" />
-  <img src="jade/foto2.png" width="48%" />
+  <img src="jade/Captura de tela 2026-08-19 092713.png" width="31%" />
+  <img src="jade/Captura de tela 2026-08-19 093225.png" width="31%" />
+  <img src="jade/nome_da_terceira_foto.png" width="31%" />
 </p>
-<p align="center">
-  <img src="jade/foto3.png" width="48%" />
-  <img src="jade/foto4.png" width="48%" />
-</p>
+
 
 
 
