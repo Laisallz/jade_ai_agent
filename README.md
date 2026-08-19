@@ -47,6 +47,13 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 -
 ### 📸 Demonstração de Funcionalidades
 
+| 📝 Geração de Conteúdo | 💻 Exemplo em Código |
+| :---: | :---: |
+| ![Foto 1](<img width="1242" height="566" alt="Captura de tela 2026-08-19 092713" src="https://github.com/user-attachments/assets/f4c89c32-0976-4d58-9a1d-1ed7f00d6ef7" />
+) | ![Foto 2](jade/foto2.png) |
+| **💡 Resolução de Dúvidas** | **🚀 Outra Funcionalidade** |
+| ![Foto 3](jade/foto3.png) | ![Foto 4](jade/foto4.png) |
+
 
 
 ## 🚀 4. Instruções para Executar o Projeto
