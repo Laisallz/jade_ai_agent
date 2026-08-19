@@ -26,7 +26,7 @@ Assistente Virtual Inteligente baseada em Inteligência Artificial, construída 
 
 ## 📝 1. Descrição Geral do Projeto
 
-A **JADE AI Agent** é uma assistente virtual conversacional projetada para responder a dúvidas de usuários de forma clara, contextualizada e amigável. O projeto combina o poder do modelo **Llama 3.3 (70B)** via API da **Groq** com busca vetorial de documentos em tempo real.
+A **JADE AI Agent** é uma assistente virtual conversacional projetada para responder a dúvidas de usuários de forma clara, contextualizada e amigável. O projeto combina o poder do modelo **Llama openai/gpt-oss-120b** via API da **Groq** com busca vetorial de documentos em tempo real.
 
 O projeto foi totalmente otimizado para execução contínua em ambientes de recursos reduzidos (como a camada gratuita do Render.com com limite de **512 MB de RAM**), garantindo inicialização rápida, baixa pegada de memória e respostas em tempo real.
 
@@ -38,7 +38,7 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 
 * **Interface Web (Gradio):** Recebe as perguntas do usuário e exibe as respostas do chat em tempo real.
 * **LangChain LCEL (Pipeline):** Orquestra o fluxo entre o modelo de linguagem e o banco de dados de forma declarativa.
-* **Groq API (Llama-3.3-70b):** Executa o processamento do LLM em nuvem com alta velocidade.
+* **Groq API (Llama-openai/gpt-oss-120b"):** Executa o processamento do LLM em nuvem com alta velocidade.
 * **Chroma DB + FastEmbed (RAG):** Armazena os documentos vetoriais e realiza buscas de similaridade utilizando uma biblioteca de embeddings leve otimizada para C++.
 
 ### Principais Decisões Arquiteturais:
@@ -55,7 +55,7 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 | **Linguagem** | Python 3.10+ | Linguagem base do projeto |
 | **Interface Web** | Gradio | Interface de chat interativa e elegante |
 | **Orquestração AI** | LangChain / LangChain Core | Framework para encadeamento do RAG e prompts |
-| **LLM (Modelo)** | Groq API (`llama-3.3-70b-versatile`) | Processamento de linguagem natural de alta velocidade |
+| **LLM (Modelo)** | Groq API (`llama-openai/gpt-oss-120b"`) | Processamento de linguagem natural de alta velocidade |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Gerador de vetores leve e de baixa memória |
 | **Banco Vetorial** | ChromaDB | Armazenamento e busca por similaridade de documentos |
 | **Hospedagem** | Render.com | Nuvem para deploy do serviço web 24/7 |
