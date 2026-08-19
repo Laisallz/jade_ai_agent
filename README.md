@@ -46,6 +46,11 @@ A arquitetura da JADE utiliza uma abordagem moderna focada em eficiência e perf
 <img width="1024" height="432" alt="image" src="https://github.com/user-attachments/assets/8f0df7e0-da34-40c4-b6c9-a8f15026a369" />
 -
 
+### 📸 Demonstração de Funcionalidades
+
+| 📝 Geração de Conteúdo (Social Media) | 💻 Suporte a Programação e Código |
+| :---: | :---: |
+| ![Geração de Legenda](assets/demo_legenda.png) | ![Exemplo Python API](assets/demo_codigo.png) |
 ## 🚀 4. Instruções para Executar o Projeto
 
 ### 💻 Execução Local
