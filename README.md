@@ -1,4 +1,8 @@
+# <img src="jade/logo.png" width="50" align="center" alt="Logo" /> JADE AI Agent
 
+> Assistente Virtual Inteligente baseada em Inteligência Artificial.
+
+---
 
 **Aplicação Online:** [Acessar a JADE no Render]https://jade-ai-agent-1-scuv.onrender.com
 
