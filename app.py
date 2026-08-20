@@ -84,11 +84,23 @@ with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
     # Seção de FAQ (Accordion Principal)
     with gr.Accordion("❓ Perguntas Frequentes (FAQ)", open=False):
         
-        with gr.Accordion("O que é o JADE AI Agent?", open=False):
-            gr.Markdown("O JADE é um assistente virtual inteligente projetado para responder dúvidas e auxiliar no processamento de informações.")
+        with gr.Accordion("O que é a JADE AI Agent?", open=False):
+            gr.Markdown("A JADE é uma assistente virtual inteligente projetada para responder dúvidas, auxiliar em análises, gerar textos e apoiar diversas tarefas do seu dia a dia.")
 
-        with gr.Accordion("Como o assistente gera as respostas?", open=False):
-            gr.Markdown("Ele utiliza modelos de linguagem avançados (LLMs) processados através da infraestrutura de alta velocidade da Groq.")
+        with gr.Accordion("Como a assistente gera as respostas?", open=False):
+            gr.Markdown("Ela utiliza modelos de linguagem avançados (LLMs) processados em tempo real através da infraestrutura de alta velocidade da Groq.")
+
+        with gr.Accordion("Qual modelo de inteligência artificial a Jade utiliza?", open=False):
+            gr.Markdown("Atualmente, a Jade utiliza o modelo **openai/gpt-oss-120b**, garantindo respostas rápidas, precisas e contextuais.")
+
+        with gr.Accordion("Quais tipos de perguntas posso fazer para a Jade?", open=False):
+            gr.Markdown("Você pode pedir ajuda para programar, resumir ou traduzir textos, criar conteúdos criativos, tirar dúvidas gerais ou estruturar ideias para projetos.")
+
+        with gr.Accordion("A Jade guarda o histórico das minhas conversas?", open=False):
+            gr.Markdown("As mensagens são processadas durante a sessão ativa para manter o contexto do diálogo. Para reiniciar a conversa do zero, basta usar o botão de limpar na interface.")
+
+        with gr.Accordion("O que fazer se a Jade der uma resposta incorreta?", open=False):
+            gr.Markdown("Como qualquer inteligência artificial, a Jade pode eventualmente cometer equívocos. Você pode reescrever sua pergunta com mais detalhes ou pedir para ela reanalisar a resposta.")
 
         with gr.Accordion("O serviço fica disponível continuamente?", open=False):
             gr.Markdown("Sim, a aplicação fica hospedada online e pronta para responder a qualquer momento.")
