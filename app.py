@@ -11,23 +11,17 @@ import gradio as gr
 from langchain_groq import ChatGroq
 
 def carregar_logo_base64():
-    # Obtém a pasta raiz onde o app.py está rodando
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    # Define o caminho exato para o novo arquivo enviado
-    # Pasta: jade / Arquivo: logo1.png.jpeg
     caminho_novo = os.path.join(base_dir, "jade", "logo1.png.jpeg")
     
-    # Lista de tentativas, priorizando o arquivo novo
     candidatos = [
         caminho_novo,
-        os.path.join(base_dir, "jade", "jade.logo.png"), # Antigo, por segurança
+        os.path.join(base_dir, "jade", "jade.logo.png"),
     ]
     
     for caminho in candidatos:
         if os.path.exists(caminho):
             print(f"✅ Logo encontrada com sucesso em: {caminho}", flush=True)
-            # Define se é JPEG ou PNG para o navegador
             extensao = "jpeg" if caminho.lower().endswith((".jpg", ".jpeg")) else "png"
             with open(caminho, "rb") as f:
                 encoded = base64.b64encode(f.read()).decode("utf-8")
@@ -36,7 +30,6 @@ def carregar_logo_base64():
     print(f"⚠️ Imagem não encontrada em {caminho_novo}. Exibindo emoji fallback.", flush=True)
     return "💎 "
 
-# Carrega a logo uma vez no início
 logo_html = carregar_logo_base64()
 
 def responder_jade(mensagem, historico):
@@ -77,13 +70,28 @@ theme = gr.themes.Soft(
 )
 
 with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
+    # Cabeçalho com a logo
     gr.Markdown(
         f"""
         # {logo_html}JADE AI Agent
         ### Assistente Virtual Inteligente
         """
     )
+    
+    # Interface do Chat
     gr.ChatInterface(fn=responder_jade)
+
+    # Seção de FAQ (Accordion Principal)
+    with gr.Accordion("❓ Perguntas Frequentes (FAQ)", open=False):
+        
+        with gr.Accordion("O que é o JADE AI Agent?", open=False):
+            gr.Markdown("O JADE é um assistente virtual inteligente projetado para responder dúvidas e auxiliar no processamento de informações.")
+
+        with gr.Accordion("Como o assistente gera as respostas?", open=False):
+            gr.Markdown("Ele utiliza modelos de linguagem avançados (LLMs) processados através da infraestrutura de alta velocidade da Groq.")
+
+        with gr.Accordion("O serviço fica disponível continuamente?", open=False):
+            gr.Markdown("Sim, a aplicação fica hospedada online e pronta para responder a qualquer momento.")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
