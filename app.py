@@ -14,26 +14,29 @@ def carregar_logo_base64():
     # Obtém a pasta raiz onde o app.py está rodando
     base_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Lista de possíveis locais e nomes do arquivo no GitHub
+    # Define o caminho exato para o novo arquivo enviado
+    # Pasta: jade / Arquivo: logo1.png.jpeg
+    caminho_novo = os.path.join(base_dir, "jade", "logo1.png.jpeg")
+    
+    # Lista de tentativas, priorizando o arquivo novo
     candidatos = [
-        os.path.join(base_dir, "jade", "jade.logo.png"),
-        os.path.join(base_dir, "jade.logo.png"),
-        os.path.join(base_dir, "jade", "jade.logo.PNG"),
-        os.path.join(base_dir, "jade", "logo.png"),
-        os.path.join(base_dir, "jade", "jade.lgo.png.jpeg"),
+        caminho_novo,
+        os.path.join(base_dir, "jade", "jade.logo.png"), # Antigo, por segurança
     ]
     
     for caminho in candidatos:
         if os.path.exists(caminho):
             print(f"✅ Logo encontrada com sucesso em: {caminho}", flush=True)
+            # Define se é JPEG ou PNG para o navegador
             extensao = "jpeg" if caminho.lower().endswith((".jpg", ".jpeg")) else "png"
             with open(caminho, "rb") as f:
                 encoded = base64.b64encode(f.read()).decode("utf-8")
                 return f'<img src="data:image/{extensao};base64,{encoded}" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;">'
     
-    print("⚠️ Imagem não encontrada nos caminhos testados. Exibindo emoji fallback.", flush=True)
+    print(f"⚠️ Imagem não encontrada em {caminho_novo}. Exibindo emoji fallback.", flush=True)
     return "💎 "
 
+# Carrega a logo uma vez no início
 logo_html = carregar_logo_base64()
 
 def responder_jade(mensagem, historico):
