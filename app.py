@@ -11,7 +11,6 @@ from langchain_groq import ChatGroq
 
 def responder_jade(mensagem, historico):
     try:
-        # Tratamento de formato da mensagem do Gradio
         if isinstance(mensagem, dict):
             texto = mensagem.get("text", "")
         else:
@@ -21,12 +20,11 @@ def responder_jade(mensagem, historico):
         if not texto:
             return ""
 
-        # Verificação da Chave de API
         api_key = os.environ.get("GROQ_API_KEY", "").strip()
         if not api_key:
             return "❌ Erro: A variável GROQ_API_KEY não está configurada no Render."
 
-        # Modelo oficial, ATIVO e GRATUITO na Groq
+        # Modelo oficial na Groq
         llm = ChatGroq(
             groq_api_key=api_key,
             model_name="openai/gpt-oss-120b",
@@ -50,10 +48,15 @@ theme = gr.themes.Soft(
 )
 
 with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
-    gr.Markdown("# 💎 JADE AI Agent\n### Assistente Virtual Inteligente")
+    gr.Markdown(
+        """
+        # <img src="file/jade/jade.logo.png" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;"> JADE AI Agent
+        ### Assistente Virtual Inteligente
+        """
+    )
     gr.ChatInterface(fn=responder_jade)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     print(f"🚀 Servidor rodando na porta {port}...", flush=True)
-    demo.launch(server_name="0.0.0.0", server_port=port)
+    demo.launch(server_name="0.0.0.0", server_port=port, allowed_paths=["."])
