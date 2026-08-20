@@ -1,3 +1,4 @@
+import base64
 import os
 import sys
 
@@ -8,6 +9,18 @@ print("=== [JADE AI AGENT] INICIANDO SERVIÇO ===", flush=True)
 
 import gradio as gr
 from langchain_groq import ChatGroq
+
+# Função para converter a imagem local em formato que o navegador lê em qualquer lugar
+def carregar_logo_base64():
+    caminhos = ["jade/jade.logo.png", "jade.logo.png"]
+    for caminho in caminhos:
+        if os.path.exists(caminho):
+            with open(caminho, "rb") as f:
+                encoded = base64.b64encode(f.read()).decode("utf-8")
+                return f'<img src="data:image/png;base64,{encoded}" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;">'
+    return "💎 "
+
+logo_html = carregar_logo_base64()
 
 def responder_jade(mensagem, historico):
     try:
@@ -24,7 +37,6 @@ def responder_jade(mensagem, historico):
         if not api_key:
             return "❌ Erro: A variável GROQ_API_KEY não está configurada no Render."
 
-        # Modelo oficial na Groq
         llm = ChatGroq(
             groq_api_key=api_key,
             model_name="openai/gpt-oss-120b",
@@ -49,8 +61,8 @@ theme = gr.themes.Soft(
 
 with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
     gr.Markdown(
-        """
-        # <img src="file/jade/jade.logo.png" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;"> JADE AI Agent
+        f"""
+        # {logo_html}JADE AI Agent
         ### Assistente Virtual Inteligente
         """
     )
@@ -59,4 +71,4 @@ with gr.Blocks(theme=theme, title="JADE AI Agent") as demo:
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     print(f"🚀 Servidor rodando na porta {port}...", flush=True)
-    demo.launch(server_name="0.0.0.0", server_port=port, allowed_paths=["."])
+    demo.launch(server_name="0.0.0.0", server_port=port)
