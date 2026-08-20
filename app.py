@@ -10,14 +10,28 @@ print("=== [JADE AI AGENT] INICIANDO SERVIÇO ===", flush=True)
 import gradio as gr
 from langchain_groq import ChatGroq
 
-# Função para converter a imagem local em formato que o navegador lê em qualquer lugar
 def carregar_logo_base64():
-    caminhos = ["jade/jade.logo.png", "jade.logo.png"]
-    for caminho in caminhos:
+    # Obtém a pasta raiz onde o app.py está rodando
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Lista de possíveis locais e nomes do arquivo no GitHub
+    candidatos = [
+        os.path.join(base_dir, "jade", "jade.logo.png"),
+        os.path.join(base_dir, "jade.logo.png"),
+        os.path.join(base_dir, "jade", "jade.logo.PNG"),
+        os.path.join(base_dir, "jade", "logo.png"),
+        os.path.join(base_dir, "jade", "jade.lgo.png.jpeg"),
+    ]
+    
+    for caminho in candidatos:
         if os.path.exists(caminho):
+            print(f"✅ Logo encontrada com sucesso em: {caminho}", flush=True)
+            extensao = "jpeg" if caminho.lower().endswith((".jpg", ".jpeg")) else "png"
             with open(caminho, "rb") as f:
                 encoded = base64.b64encode(f.read()).decode("utf-8")
-                return f'<img src="data:image/png;base64,{encoded}" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;">'
+                return f'<img src="data:image/{extensao};base64,{encoded}" style="height: 1em; vertical-align: -0.15em; display: inline-block; margin-right: 6px;">'
+    
+    print("⚠️ Imagem não encontrada nos caminhos testados. Exibindo emoji fallback.", flush=True)
     return "💎 "
 
 logo_html = carregar_logo_base64()
